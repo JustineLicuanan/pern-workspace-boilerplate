@@ -1,0 +1,7 @@
+node_modules/
+
+database.sqlite*
+database.test.sqlite*
+
+yarn-debug.log*
+yarn-error.log*

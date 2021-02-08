@@ -1,0 +1,32 @@
+{
+	"name": "@pern-workspace/main",
+	"author": "Justine Licuanan",
+	"license": "MIT",
+	"private": true,
+	"engines": {
+		"node": "14.15.1"
+	},
+	"workspaces": {
+		"packages": [
+			"packages/*"
+		]
+	},
+	"scripts": {
+		"cwd:server": "yarn --cwd ./packages/server",
+		"cwd:shared": "yarn --cwd ./packages/shared",
+		"add:server": "yarn cwd:server add",
+		"add:shared": "yarn cwd:shared add",
+		"rm:server": "yarn cwd:server remove",
+		"rm:shared": "yarn cwd:shared rm",
+		"dev:server": "yarn cwd:server dev",
+		"dev:shared": "yarn cwd:shared dev",
+		"cg:server": "yarn cwd:server cg",
+		"stest:server": "yarn cwd:server test:start",
+		"test:server": "yarn cwd:server test",
+		"commit": "git add . && git commit -m",
+		"origin": "git push origin master",
+		"build:server": "yarn cwd:server build",
+		"build:shared": "yarn cwd:shared build",
+		"start:server": "yarn cwd:server start"
+	}
+}
