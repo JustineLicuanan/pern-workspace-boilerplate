@@ -67,6 +67,27 @@ export type LogoutObject = {
   errors?: Maybe<Array<FieldError>>;
 };
 
+export type LoginMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LoginMutation = { login: { user?: Maybe<Pick<User, 'id' | 'name' | 'email' | 'token'>>, errors?: Maybe<Array<Pick<FieldError, 'path' | 'message'>>> } };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { logout: (
+    Pick<LogoutObject, 'success'>
+    & { errors?: Maybe<Array<Pick<FieldError, 'path' | 'message'>>> }
+  ) };
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { me: { user?: Maybe<Pick<User, 'id' | 'name' | 'email' | 'token'>>, errors?: Maybe<Array<Pick<FieldError, 'path' | 'message'>>> } };
+
 export type RegisterMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
@@ -74,9 +95,52 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { register: { user?: Maybe<Pick<User, 'id' | 'name' | 'email'>>, errors?: Maybe<Array<Pick<FieldError, 'path' | 'message'>>> } };
+export type RegisterMutation = { register: { user?: Maybe<Pick<User, 'id' | 'name' | 'email' | 'token'>>, errors?: Maybe<Array<Pick<FieldError, 'path' | 'message'>>> } };
 
 
+export const LoginDocument = gql`
+    mutation Login($email: String!, $password: String!) {
+  login(input: {email: $email, password: $password}) {
+    user {
+      id
+      name
+      email
+      token
+    }
+    errors {
+      path
+      message
+    }
+  }
+}
+    `;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout {
+    success
+    errors {
+      path
+      message
+    }
+  }
+}
+    `;
+export const MeDocument = gql`
+    query Me {
+  me {
+    user {
+      id
+      name
+      email
+      token
+    }
+    errors {
+      path
+      message
+    }
+  }
+}
+    `;
 export const RegisterDocument = gql`
     mutation Register($name: String!, $email: String!, $password: String!) {
   register(input: {name: $name, email: $email, password: $password}) {
@@ -84,6 +148,7 @@ export const RegisterDocument = gql`
       id
       name
       email
+      token
     }
     errors {
       path
@@ -99,6 +164,15 @@ export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 const defaultWrapper: SdkFunctionWrapper = sdkFunction => sdkFunction();
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    Login(variables: LoginMutationVariables, requestHeaders?: Headers): Promise<LoginMutation> {
+      return withWrapper(() => client.request<LoginMutation>(print(LoginDocument), variables, requestHeaders));
+    },
+    Logout(variables?: LogoutMutationVariables, requestHeaders?: Headers): Promise<LogoutMutation> {
+      return withWrapper(() => client.request<LogoutMutation>(print(LogoutDocument), variables, requestHeaders));
+    },
+    Me(variables?: MeQueryVariables, requestHeaders?: Headers): Promise<MeQuery> {
+      return withWrapper(() => client.request<MeQuery>(print(MeDocument), variables, requestHeaders));
+    },
     Register(variables: RegisterMutationVariables, requestHeaders?: Headers): Promise<RegisterMutation> {
       return withWrapper(() => client.request<RegisterMutation>(print(RegisterDocument), variables, requestHeaders));
     }

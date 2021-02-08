@@ -27,14 +27,14 @@ export class AuthResolver {
 		const userExists = await User.findOne({ email: input.email });
 
 		if (userExists) {
-			const errors = [
-				{
-					path: 'email',
-					message: 'email is already registered',
-				},
-			];
-
-			return { errors };
+			return {
+				errors: [
+					{
+						path: 'email',
+						message: 'email is already registered',
+					},
+				],
+			};
 		}
 
 		const user = User.create(input);

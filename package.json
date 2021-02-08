@@ -27,6 +27,7 @@
 		"origin": "git push origin master",
 		"build:server": "yarn cwd:server build",
 		"build:shared": "yarn cwd:shared build",
-		"start:server": "yarn cwd:server start"
+		"start:server": "yarn cwd:server start",
+		"start": "yarn start:server"
 	}
 }

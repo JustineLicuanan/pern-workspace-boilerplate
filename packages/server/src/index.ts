@@ -13,8 +13,6 @@ import { getConnectionConfig } from './ormconfig';
 	const connectionConfig = getConnectionConfig();
 	await createConnection({ ...connectionConfig, name: 'default' });
 
-	console.log('connected to database successfully');
-
 	const server = new ApolloServer({
 		schema: await buildSchema({
 			resolvers: [AuthResolver],

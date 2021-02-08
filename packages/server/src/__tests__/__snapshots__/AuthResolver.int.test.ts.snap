@@ -1,0 +1,116 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`"me" query tests CAN'T get "me" if not logged in 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "message": "user is unauthorized",
+      "path": "user",
+    },
+  ],
+  "user": null,
+}
+`;
+
+exports[`login mutation tests CAN'T login incorrect credentials 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "message": "email or password is incorrect",
+      "path": "email",
+    },
+  ],
+  "user": null,
+}
+`;
+
+exports[`login mutation tests CAN'T login incorrect credentials 2`] = `
+Object {
+  "errors": Array [
+    Object {
+      "message": "email or password is incorrect",
+      "path": "email",
+    },
+  ],
+  "user": null,
+}
+`;
+
+exports[`login mutation tests validation works 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "message": "email must be a valid email",
+      "path": "email",
+    },
+    Object {
+      "message": "password is a required field",
+      "path": "password",
+    },
+  ],
+  "user": null,
+}
+`;
+
+exports[`logout mutation tests CAN'T logout if not logged in 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "message": "user is unauthorized",
+      "path": "user",
+    },
+  ],
+  "success": null,
+}
+`;
+
+exports[`logout mutation tests can logout if logged in 1`] = `
+Object {
+  "errors": null,
+  "success": true,
+}
+`;
+
+exports[`logout mutation tests can logout if logged in 2`] = `
+Object {
+  "errors": Array [
+    Object {
+      "message": "user is unauthorized",
+      "path": "user",
+    },
+  ],
+  "user": null,
+}
+`;
+
+exports[`register mutation tests CAN'T register already taken email 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "message": "email is already registered",
+      "path": "email",
+    },
+  ],
+  "user": null,
+}
+`;
+
+exports[`register mutation tests validation works 1`] = `
+Object {
+  "errors": Array [
+    Object {
+      "message": "name is a required field",
+      "path": "name",
+    },
+    Object {
+      "message": "email must be a valid email",
+      "path": "email",
+    },
+    Object {
+      "message": "password must be at least 6 characters",
+      "path": "password",
+    },
+  ],
+  "user": null,
+}
+`;
