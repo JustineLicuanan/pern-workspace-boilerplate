@@ -18,6 +18,10 @@ const mockRes = {
 	errors: null,
 };
 
+const getAuthReqHeaders = (): any => {
+	return { authorization: `Bearer ${mockRes.user.token}` };
+};
+
 describe('register mutation tests', () => {
 	it('validation works', async () => {
 		const { register: res } = await sdk.Register({
@@ -85,9 +89,7 @@ describe('"me" query tests', () => {
 	});
 
 	it('can get "me" if logged in', async () => {
-		const { me: res } = await sdk.Me(undefined, {
-			authorization: `Bearer ${mockRes.user.token}`,
-		} as any);
+		const { me: res } = await sdk.Me(undefined, getAuthReqHeaders());
 
 		expect(res).toEqual(mockRes);
 	});
@@ -100,15 +102,11 @@ describe('logout mutation tests', () => {
 	});
 
 	it('can logout if logged in', async () => {
-		const { logout: res } = await sdk.Logout(undefined, {
-			authorization: `Bearer ${mockRes.user.token}`,
-		} as any);
+		const { logout: res } = await sdk.Logout(undefined, getAuthReqHeaders());
 
 		expect(res).toMatchSnapshot();
 
-		const { me: res2 } = await sdk.Me(undefined, {
-			authorization: `Bearer ${mockRes.user.token}`,
-		} as any);
+		const { me: res2 } = await sdk.Me(undefined, getAuthReqHeaders());
 
 		expect(res2).toMatchSnapshot();
 	});

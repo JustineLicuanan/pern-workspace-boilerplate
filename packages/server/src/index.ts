@@ -11,7 +11,7 @@ import { getConnectionConfig } from './ormconfig';
 
 (async () => {
 	const connectionConfig = getConnectionConfig();
-	await createConnection({ ...connectionConfig, name: 'default' });
+	await createConnection({ ...connectionConfig!, name: 'default' });
 
 	const server = new ApolloServer({
 		schema: await buildSchema({
