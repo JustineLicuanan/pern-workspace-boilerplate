@@ -14,20 +14,27 @@
 	"scripts": {
 		"cwd:server": "yarn --cwd ./packages/server",
 		"cwd:shared": "yarn --cwd ./packages/shared",
+		"cwd:web": "yarn --cwd ./packages/web",
 		"add:server": "yarn cwd:server add",
 		"add:shared": "yarn cwd:shared add",
+		"add:web": "yarn cwd:web add",
 		"rm:server": "yarn cwd:server remove",
-		"rm:shared": "yarn cwd:shared rm",
+		"rm:shared": "yarn cwd:shared remove",
+		"rm:web": "yarn cwd:web remove",
 		"dev:server": "yarn cwd:server dev",
 		"dev:shared": "yarn cwd:shared dev",
+		"dev:web": "yarn cwd:web dev",
 		"cg:server": "yarn cwd:server cg",
+		"cg:web": "yarn cwd:web cg",
 		"stest:server": "yarn cwd:server test:start",
 		"test:server": "yarn cwd:server test",
 		"commit": "git add . && git commit -m",
 		"origin": "git push origin master",
 		"build:server": "yarn cwd:server build",
 		"build:shared": "yarn cwd:shared build",
+		"build:web": "yarn cwd:web build",
 		"start:server": "yarn cwd:server start",
+		"start:web": "yarn cwd:web start",
 		"start": "yarn start:server"
 	}
 }
