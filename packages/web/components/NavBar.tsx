@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { myMeta } from '../meta';
 import Link from './Link';
 import { routes } from '../routes';
+import { useMeQuery } from '../generated/graphql';
 
 const useStyles = makeStyles((theme: Theme) => {
 	return createStyles({
@@ -30,6 +31,7 @@ const NavBar = () => {
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
+	const { data } = useMeQuery();
 
 	const handleMenu = (event: MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -79,12 +81,35 @@ const NavBar = () => {
 								open={open}
 								onClose={() => handleClose()}
 							>
-								<MenuItem onClick={() => handleClose(routes.register.path)}>
-									Register
-								</MenuItem>
-								<MenuItem onClick={() => handleClose(routes.login.path)}>
-									Login
-								</MenuItem>
+								{data?.me.user
+									? [
+											<MenuItem
+												onClick={() => handleClose(routes.dashboard.path)}
+												key='dashboardMenuItem'
+											>
+												Dashboard
+											</MenuItem>,
+											<MenuItem
+												onClick={() => handleClose(routes.logout.path)}
+												key='logoutMenuItem'
+											>
+												Logout
+											</MenuItem>,
+									  ]
+									: [
+											<MenuItem
+												onClick={() => handleClose(routes.register.path)}
+												key='registerMenuItem'
+											>
+												Register
+											</MenuItem>,
+											<MenuItem
+												onClick={() => handleClose(routes.login.path)}
+												key='loginMenuItem'
+											>
+												Login
+											</MenuItem>,
+									  ]}
 							</Menu>
 						</div>
 					</Toolbar>

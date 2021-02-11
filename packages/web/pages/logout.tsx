@@ -1,22 +1,40 @@
 import { Box, Typography } from '@material-ui/core';
-import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-import { myMeta } from '../meta';
+import { useLogoutMutation } from '../generated/graphql';
+import { routes } from '../routes';
 
 const Logout = () => {
-	return (
-		<>
-			<Head>
-				<title>Logout | {myMeta.title}</title>
-			</Head>
+	const router = useRouter();
+	const [logoutMutation, { loading }] = useLogoutMutation({
+		update(cache) {
+			cache.modify({
+				fields: {
+					me: (_, { DELETE }) => DELETE,
+				},
+			});
+		},
+	});
 
+	useEffect(() => {
+		(async () => {
+			await logoutMutation();
+			router.push(routes.login.path);
+		})();
+	}, []);
+
+	if (loading) {
+		return (
 			<Box mt={8}>
 				<Typography variant='h4' align='center'>
-					This is Client's LOGOUT route
+					Logging out...
 				</Typography>
 			</Box>
-		</>
-	);
+		);
+	}
+
+	return null;
 };
 
 export default Logout;

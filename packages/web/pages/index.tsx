@@ -1,28 +1,28 @@
 import { Box, Typography } from '@material-ui/core';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import { useMeQuery } from '../generated/graphql';
 import { myMeta } from '../meta';
+import { routes } from '../routes';
 
 const Home = () => {
+	const router = useRouter();
 	const { loading, error, data } = useMeQuery();
 
 	if (loading) {
-		return <p>Loading...</p>;
-	}
-
-	if (error) {
-		return <p>Error!</p>;
-	}
-
-	if (data?.me.errors) {
 		return (
-			<Box mt={8} mx={2}>
-				<pre>
-					<code>{JSON.stringify(data.me.errors, null, 3)}</code>
-				</pre>
+			<Box mt={8}>
+				<Typography variant='h4' align='center'>
+					Loading...
+				</Typography>
 			</Box>
 		);
+	}
+
+	if (error || data?.me.errors) {
+		router.push(routes.login.path);
+		return null;
 	}
 
 	return (
@@ -36,7 +36,8 @@ const Home = () => {
 					This is the DASHBOARD page
 					<br />
 					<br />
-					{data?.me.user && `You're logged in as ${data.me.user.name}`}
+					{data?.me.user &&
+						`You're logged in as ${data.me.user.name} (${data.me.user.email})`}
 				</Typography>
 			</Box>
 		</>

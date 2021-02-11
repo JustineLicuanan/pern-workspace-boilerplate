@@ -1,4 +1,5 @@
 import Avatar from '@material-ui/core/Avatar';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -9,10 +10,12 @@ import Container from '@material-ui/core/Container';
 import { loginSchema } from '@pern-workspace/shared';
 import { Formik } from 'formik';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import Link from '../components/Link';
 import { routes } from '../routes';
 import { myMeta } from '../meta';
+import { useLoginMutation, useMeQuery } from '../generated/graphql';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -35,7 +38,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
+	const router = useRouter();
 	const classes = useStyles();
+	const { loading, data } = useMeQuery();
+
+	const [loginMutation] = useLoginMutation({
+		update(cache, { data }) {
+			cache.modify({
+				fields: {
+					me: () => data?.login,
+				},
+			});
+		},
+	});
+
+	if (loading) {
+		return (
+			<Box mt={8}>
+				<Typography variant='h4' align='center'>
+					Loading...
+				</Typography>
+			</Box>
+		);
+	}
+
+	if (data?.me.user) {
+		router.push(routes.dashboard.path);
+		return null;
+	}
 
 	return (
 		<>
@@ -53,8 +83,24 @@ const Login = () => {
 					<Formik
 						initialValues={{ email: '', password: '' }}
 						validationSchema={loginSchema}
-						onSubmit={(values) => {
-							console.log(values);
+						onSubmit={async (variables, { setFieldError, setFieldValue }) => {
+							const { errors, data } = await loginMutation({
+								variables,
+							});
+
+							if (errors) {
+								setFieldValue('password', '', false);
+								setFieldError('email', 'internal server error');
+								return;
+							}
+
+							if (data?.login.errors) {
+								setFieldValue('password', '', false);
+								setFieldError('email', data?.login.errors[0].message);
+								return;
+							}
+
+							router.push(routes.dashboard.path);
 						}}
 					>
 						{({

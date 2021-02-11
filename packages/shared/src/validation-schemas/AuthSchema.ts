@@ -1,7 +1,7 @@
 import { object, string } from 'yup';
 
 export const registerSchema = object().shape({
-	name: string().required(),
+	name: string().trim().required(),
 	email: string().required().email(),
 	password: string().required().min(6),
 });

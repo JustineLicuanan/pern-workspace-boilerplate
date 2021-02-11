@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"private": true,
 	"engines": {
-		"node": "14.15.1"
+		"node": "14.x"
 	},
 	"workspaces": {
 		"packages": [
@@ -35,6 +35,9 @@
 		"build:web": "yarn cwd:web build",
 		"start:server": "yarn cwd:server start",
 		"start:web": "yarn cwd:web start",
-		"start": "yarn start:server"
+		"heroku-postbuild": "yarn build:shared && yarn build:server",
+		"heroku-start": "yarn start:server",
+		"vercel-postbuild": "yarn build:shared && yarn build:web",
+		"vercel-start": "yarn start:web"
 	}
 }
