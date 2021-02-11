@@ -19,9 +19,8 @@
 		"esModuleInterop": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"resolveJsonModule": true,
-		"noEmit": true
+		"resolveJsonModule": true
 	},
-	"exclude": ["node_modules"],
+	"exclude": ["node_modules", "src/__tests__"],
 	"include": ["./src/**/*.tsx", "./src/**/*.ts"]
 }

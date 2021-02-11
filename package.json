@@ -30,6 +30,7 @@
 		"test:server": "yarn cwd:server test",
 		"commit": "git add . && git commit -m",
 		"origin": "git push origin master",
+		"heroku": "git push heroku master",
 		"build:server": "yarn cwd:server build",
 		"build:shared": "yarn cwd:shared build",
 		"build:web": "yarn cwd:web build",
@@ -37,7 +38,7 @@
 		"start:web": "yarn cwd:web start",
 		"heroku-postbuild": "yarn build:shared && yarn build:server",
 		"heroku-start": "yarn start:server",
-		"vercel-postbuild": "yarn build:shared && yarn build:web",
+		"vercel-build": "yarn build:shared && yarn build:web",
 		"vercel-start": "yarn start:web"
 	}
 }
